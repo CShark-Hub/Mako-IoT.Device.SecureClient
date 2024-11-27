@@ -5,5 +5,6 @@ namespace MakoIoT.Device.SecureClient.Services
     public interface ICertificateProvider
     {
         X509Certificate GetCertificate(string name);
+        X509Certificate GetDefaultBundle();
     }
 }

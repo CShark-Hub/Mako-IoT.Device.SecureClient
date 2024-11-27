@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
+using MakoIoT.Device.SecureClient.Exceptions;
 using MakoIoT.Device.Services.Interface;
 
 namespace MakoIoT.Device.SecureClient.Services
@@ -17,22 +18,30 @@ namespace MakoIoT.Device.SecureClient.Services
 
         public X509Certificate GetCertificate(string name)
         {
-            if (_storageService.FileExists(Constants.GetCertificateFileName(name)))
-            {
-                try
-                {
-                    _log.Trace($"Reading certificate from file {Constants.GetCertificateFileName(name)}");
-                    var cs = _storageService.ReadFile(Constants.GetCertificateFileName(name));
-                    _log.Trace($"Certificate string length: {cs.Length}");
-                    return new X509Certificate(cs);
-                }
-                catch (Exception e)
-                {
-                    _log.Error(e);
-                }
-            }
+            return GetCertificateInternal(Constants.GetCertificateFileName(name));
+        }
 
-            return null;
+        public X509Certificate GetDefaultBundle()
+        {
+            return GetCertificateInternal(Constants.CertificateFile);
+        }
+
+        private X509Certificate GetCertificateInternal(string filename)
+        {
+            if (!_storageService.FileExists(filename))
+                throw new SecureClientException($"Certificate file {filename} not found on the device");
+
+            try
+            {
+                _log.Trace($"Reading certificate from file {filename}");
+                var cs = _storageService.ReadFile(filename);
+                _log.Trace($"Certificate string length: {cs.Length}");
+                return new X509Certificate(cs);
+            }
+            catch (Exception e)
+            {
+                throw new SecureClientException("Error loading certificate", e);
+            }
         }
     }
 }
