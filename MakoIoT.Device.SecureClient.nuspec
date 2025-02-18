@@ -18,7 +18,7 @@
     <tags>nanoFramework C# csharp netmf netnf mako-iot secure httpclient https</tags>
     <dependencies>
       <dependency id="MakoIoT.Device.Services.FileStorage" version="1.1.1.4387" />
-      <dependency id="MakoIoT.Device.Services.Interface" version="1.0.48.22567" />
+      <dependency id="MakoIoT.Device.Services.Interface" version="1.0.50.35966" />
       <dependency id="nanoFramework.CoreLibrary" version="1.16.11" />
       <dependency id="nanoFramework.DependencyInjection" version="1.1.25" />
       <dependency id="nanoFramework.Runtime.Events" version="1.11.29" />
